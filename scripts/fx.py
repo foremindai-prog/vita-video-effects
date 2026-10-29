@@ -391,7 +391,7 @@ def fx_swipe(c, e):
     d.ellipse([2, 2, 2 * r + 2, 2 * r + 2], fill=(255, 255, 255, 255))
     d.text((r + 2, r + 2), '< >', font=font('mono', r * 0.7), fill=INK + (255,), anchor='mm')
     place(c, shadowed(h, 8, 4, 110), hx, hy)
-    for lab, x in (('before', 0.14), ('after', 0.86)):
+    for lab, x in (('до', 0.14), ('после', 0.86)):
         t = text_img(lab, c.W * 0.03, 'serif', INK); pill = rrect(t.width + 16, t.height, t.height / 2, (255, 255, 255, 225))
         pill.alpha_composite(t, (8, 0)); place(c, pill, c.W * x, c.H * 0.88)
 
@@ -404,7 +404,7 @@ def fx_todo(c, e):
     cw = int(c.W * 0.5); lh = int(cw * 0.13); pad = int(cw * 0.07)
     im = rrect(cw, pad * 2 + lh * (len(items) + 1), cw * 0.07, (250, 248, 242, 235)); d = ImageDraw.Draw(im)
     done = sum(c.lt >= t for t in ticks)
-    d.text((pad, pad), e.o.get('title', 'TO DO').upper(), font=font('ui', lh * 0.42), fill=(200, 140, 20, 255))
+    d.text((pad, pad), e.o.get('title', 'Сделать').upper(), font=font('ui', lh * 0.42), fill=(200, 140, 20, 255))
     d.text((cw - pad, pad), f'{done} of {len(items)}', font=font('ui', lh * 0.36), fill=(120, 120, 120, 255), anchor='ra')
     f = font('ui', lh * 0.4)
     for i, it in enumerate(items):
@@ -440,7 +440,7 @@ def comment_bar(c, e):
     r = bh * 0.32; d.ellipse([bh * 0.2, bh / 2 - r, bh * 0.2 + 2 * r, bh / 2 + r], fill=(214, 41, 118, 255))
     f = font('ui', bh * 0.3)
     if typed: d.text((bh * 0.95, bh / 2), typed + ('|' if int(c.lt * 4) % 2 else ''), font=f, fill=INK + (255,), anchor='lm')
-    elif c.lt < post_t: d.text((bh * 0.95, bh / 2), 'Add a comment...', font=f, fill=(150, 150, 150, 255), anchor='lm')
+    elif c.lt < post_t: d.text((bh * 0.95, bh / 2), 'Добавьте комментарий...', font=f, fill=(150, 150, 150, 255), anchor='lm')
     d.text((bw - bh * 0.4, bh / 2), 'Post', font=f, fill=((0, 149, 246, 255) if typed else (180, 210, 240, 255)), anchor='rm')
     al = clamp((e.d - c.lt) / 0.2)
     place(c, shadowed(im, 14, 6, 100), c.W / 2, y, alpha=al, guard=True)
@@ -464,7 +464,7 @@ def fx_tap(c, e):
     on = c.lt >= at
     col = rgb(e.o.get('color'), (124, 92, 255)) if on else (0, 149, 246)
     im = rrect(bw, bh, bh * 0.28, col + (255,)); d = ImageDraw.Draw(im)
-    d.text((bw / 2, bh / 2), 'Following' if on else '+ Follow', font=font('ui', bh * 0.4), fill=(255, 255, 255, 255), anchor='mm')
+    d.text((bw / 2, bh / 2), '✓ Вы подписаны' if on else '+ Подписаться', font=font('ui', bh * 0.4), fill=(255, 255, 255, 255), anchor='mm')
     pop = ease_back(c.lt / 0.3)
     sq = 1.0
     if on: q = (c.lt - at) / 0.3; sq = 1 - 0.12 * math.sin(math.pi * clamp(q)) if q < 1 else 1
@@ -664,7 +664,7 @@ def fx_cover_star(c, e):
     mast = cached(e, 'm', lambda: fit_text(title, c.W * 0.92, 'bold', 600, fill=col))
     mast_h = min(mast.height, c.H * 0.24)
     place(c, mast, c.W / 2, c.H * 0.035 + mast_h / 2 - (1 - k) * mast_h, mast_h / mast.height, 0, al * k, behind=True)
-    iss = cached(e, 'i', lambda: text_img(e.o.get('issue', 'THE AI ISSUE  ·  2026'), c.W * 0.025, 'mono', (255, 255, 255), shadow=3))
+    iss = cached(e, 'i', lambda: text_img(e.o.get('issue', 'ВЫПУСК ПРО ИИ  ·  2026'), c.W * 0.025, 'mono', (255, 255, 255), shadow=3))
     place(c, iss, c.W / 2, c.H * 0.03, alpha=al * k, behind=True)
     lines = e.o.get('lines', '22 effects|you can steal|no editor|needed').split('|')
     y = c.H * 0.5
@@ -812,7 +812,7 @@ def glass_widgets_v1(c, e):
     bw, bh = W * 0.37, W * 0.15; bx = W - mg - bw / 2
     b = glass(c, bw, bh, bh * 0.28, bx, y_top + bh / 2, amt=0.14, dark=gd); d = ImageDraw.Draw(b)
     d.ellipse([bh * 0.17, bh * 0.2, bh * 0.17 + bh * 0.11, bh * 0.31], fill=(255, 69, 58, 255))
-    d.text((bh * 0.36, bh * 0.255), 'Rendering', font=font('uim', bh * 0.19), fill=(255, 255, 255, 240), anchor='lm')
+    d.text((bh * 0.36, bh * 0.255), 'Рендер', font=font('uim', bh * 0.19), fill=(255, 255, 255, 240), anchor='lm')
     p = ease_inout(c.lt / max(0.3, e.d * 0.85))
     d.rounded_rectangle([bh * 0.17, bh * 0.5, bw - bh * 0.17, bh * 0.6], bh * 0.05, fill=(255, 255, 255, 70))
     d.rounded_rectangle([bh * 0.17, bh * 0.5, bh * 0.17 + (bw - bh * 0.34) * max(0.04, p), bh * 0.6], bh * 0.05, fill=(255, 255, 255, 245))
@@ -825,7 +825,7 @@ def glass_widgets_v1(c, e):
     d.text((bh * 0.2, bh * 0.66), e.o.get('handle', '@vita.mikushkina'), font=font('uim', bh * 0.14), fill=(255, 255, 255, 215), anchor='lm')
     place(c, g, bx, cy2, 0.6 + 0.4 * pop(c, 0.24), 0, al * clamp((c.lt - 0.24) / 0.1), behind=True)
     f1, f2 = font('uim', W * 0.045), font('uib', W * 0.045)
-    pre, hi = e.o.get('pill', 'Edited by |Claude').split('|') if '|' in e.o.get('pill', 'Edited by |Claude') else (e.o['pill'], '')
+    pre, hi = e.o.get('pill', 'Монтаж: |Claude').split('|') if '|' in e.o.get('pill', 'Монтаж: |Claude') else (e.o['pill'], '')
     tw = f1.getlength(pre) + f2.getlength(hi); ph = W * 0.105; pw = tw + ph * 0.9; py = c.H * 0.865
     q = glass(c, pw, ph, ph / 2, W / 2, py, amt=0.16, tint=(70, 70, 76)); d = ImageDraw.Draw(q)
     d.text(((pw - tw) / 2, ph / 2), pre, font=f1, fill=(255, 255, 255, 255), anchor='lm')
@@ -886,7 +886,7 @@ def fx_split_headline(c, e):
             x += f.getlength(' ') + (S * 0.12 if core == hl else 0)
     d.rectangle([0, ch - max(5, W // 180), W, ch], fill=col + (255,))
     comp(c, lay, 0, top - ch)
-    pt = text_img(e.o.get('pill', 'in seconds ↗'), W * 0.034, 'uib', (255, 255, 255))
+    pt = text_img(e.o.get('pill', 'за секунды ↗'), W * 0.034, 'uib', (255, 255, 255))
     pill = rrect(pt.width + W * 0.02, pt.height * 0.95, pt.height * 0.47, col + (255,)); pill.alpha_composite(pt, (int(W * 0.01), int(-pt.height * 0.025)))
     place(c, shadowed(pill, 10, 4, 80), W * 0.93 - pill.width / 2, top + pill.height * 0.95, 0.6 + 0.4 * pop(c, 0.62), 0, clamp((c.lt - 0.62) / 0.1) * k, guard=True)
 
@@ -911,10 +911,10 @@ def fx_pastel_word(c, e):
     d.text((chh * 0.98, chh * 0.38), e.o.get('name', 'Vita'), font=font('uib', chh * 0.22), fill=(20, 20, 22, 255), anchor='lm')
     h1 = e.o.get('handle', '@vita.mikushkina  ·  '); f = font('uim', chh * 0.15)
     d.text((chh * 0.98, chh * 0.66), h1, font=f, fill=(140, 140, 150, 255), anchor='lm')
-    d.text((chh * 0.98 + f.getlength(h1), chh * 0.66), e.o.get('role', 'creator'), font=f, fill=PURPLE + (255,), anchor='lm')
+    d.text((chh * 0.98 + f.getlength(h1), chh * 0.66), e.o.get('role', 'автор'), font=f, fill=PURPLE + (255,), anchor='lm')
     at = e.d * 0.6; on = c.lt >= at
     bx = cw - chh * 0.22
-    d.text((bx, chh / 2), 'Following' if on else 'Follow', font=font('uib', chh * 0.2), fill=((140, 140, 150, 255) if on else PURPLE + (255,)), anchor='rm')
+    d.text((bx, chh / 2), 'Вы подписаны' if on else 'Подписаться', font=font('uib', chh * 0.2), fill=((140, 140, 150, 255) if on else PURPLE + (255,)), anchor='rm')
     sq = 1 - 0.06 * math.sin(math.pi * clamp((c.lt - at) / 0.25)) if on else 1
     place(c, shadowed(card_, 18, 8, 90), W / 2, cy, sq, 0, al * clamp((c.lt - 0.15) / 0.12), guard=True)
     cu = cached(e, 'cur', lambda: cursor(W * 0.06))
@@ -980,9 +980,9 @@ def red_timeline(c, e):
     dot = Image.new('RGBA', (int(rec.height * 0.36),) * 2, (0, 0, 0, 0)); ImageDraw.Draw(dot).ellipse([0, 0, dot.width - 1, dot.width - 1], fill=red + (255,))
     comp(c, dot, W * 0.065 - sl, H * 0.075 + (rec.height - dot.height) / 2, tb * (1.0 if int(c.lt * 2.5) % 2 == 0 else 0.35), guard=True)
     comp(c, rec, W * 0.065 + dot.width * 1.4 - sl, H * 0.075, tb, guard=True)
-    ti = cached(e, 'ti', lambda: text_img(e.o.get('text', 'AUTO-EDIT'), W * 0.13, 'uib', (255, 255, 255), shadow=10))
+    ti = cached(e, 'ti', lambda: fit_text(e.o.get('text', 'АВТОМОНТАЖ'), W * 0.88, 'uib', start=int(W * 0.13), fill=(255, 255, 255), shadow=10))
     comp(c, ti, W * 0.055 - sl, H * 0.075 + rec.height * 0.85, tb, guard=True)
-    su = cached(e, 'su', lambda: text_img(e.o.get('sub', 'timeline by Claude'), W * 0.037, 'uim', red))
+    su = cached(e, 'su', lambda: text_img(e.o.get('sub', 'монтаж от Claude'), W * 0.037, 'uim', red))
     comp(c, su, W * 0.065 - sl, H * 0.075 + rec.height * 0.85 + ti.height * 0.88, tb, guard=True)
     pw, phh = int(W * 0.9), int(H * 0.19); py = H * 0.755 + (1 - ease_out((c.lt - 0.1) / 0.35)) * H * 0.3
     lay = rrect(pw, phh, W * 0.03, (14, 10, 10, 215), (255, 70, 60, 90), 2); d = ImageDraw.Draw(lay)
@@ -1026,7 +1026,7 @@ def fx_profile_wall(c, e):
     W, H = c.W, c.H; al = fade(c, e)
     def wall():
         pw = int(W * 0.92); ph = int(H * 0.36); im = rrect(pw, ph, W * 0.035, (16, 16, 18, 240)); d = ImageDraw.Draw(im)
-        tabs = ('Posts', 'Reels', 'Tagged'); f = font('uim', W * 0.032)
+        tabs = ('Публикации', 'Reels', 'Отметки'); f = font('uim', W * 0.032)
         for j, tb in enumerate(tabs):
             x = pw * (0.2 + 0.3 * j); d.text((x, ph * 0.06), tb, font=f, fill=((255, 255, 255, 255) if j == 1 else (130, 130, 136, 255)), anchor='mm')
             if j == 1: d.rectangle([x - pw * 0.08, ph * 0.1, x + pw * 0.08, ph * 0.1 + 4], fill=(255, 255, 255, 255))
@@ -1039,13 +1039,13 @@ def fx_profile_wall(c, e):
     target = int(e.o.get('count', 197000)); n = int(target * ease_out((c.lt - 0.2) / 0.8))
     swap = clamp((c.lt - 1.15) / 0.2)
     if swap < 1: d.text((cw / 2, chh * 0.33), f'{n:,}', font=font('uib', chh * 0.3), fill=(255, 255, 255, int(255 * (1 - swap))), anchor='mm')
-    if swap > 0: d.text((cw / 2, chh * 0.33), e.o.get('label', 'views'), font=font('uib', chh * 0.3), fill=(255, 255, 255, int(255 * swap)), anchor='mm')
+    if swap > 0: d.text((cw / 2, chh * 0.33), e.o.get('label', 'просмотры'), font=font('uib', chh * 0.3), fill=(255, 255, 255, int(255 * swap)), anchor='mm')
     av = face_chip(c, e, chh * 0.3); g.alpha_composite(av, (int(chh * 0.14), int(chh * 0.58)))
     d.text((chh * 0.52, chh * 0.68), e.o.get('name', 'vita.mikushkina'), font=font('uib', chh * 0.09), fill=(255, 255, 255, 255), anchor='lm')
-    d.text((chh * 0.52, chh * 0.8), e.o.get('sub', 'top reel'), font=font('uim', chh * 0.075), fill=(170, 170, 176, 255), anchor='lm')
+    d.text((chh * 0.52, chh * 0.8), e.o.get('sub', 'топ рилс'), font=font('uim', chh * 0.075), fill=(170, 170, 176, 255), anchor='lm')
     on = c.lt >= e.d * 0.7
     d.rounded_rectangle([cw - chh * 0.95, chh * 0.62, cw - chh * 0.14, chh * 0.86], chh * 0.12, fill=((60, 60, 66, 255) if on else (255, 255, 255, 255)))
-    d.text((cw - chh * 0.545, chh * 0.74), 'Following' if on else 'Follow', font=font('uib', chh * 0.08), fill=((255, 255, 255, 255) if on else (16, 16, 18, 255)), anchor='mm')
+    d.text((cw - chh * 0.545, chh * 0.74), 'Вы подписаны' if on else 'Подписаться', font=font('uib', chh * 0.08), fill=((255, 255, 255, 255) if on else (16, 16, 18, 255)), anchor='mm')
     place(c, g, W / 2, cy + (1 - ease_out((c.lt - 0.05) / 0.3)) * H * 0.1, 1, 0, al * clamp((c.lt - 0.05) / 0.12), guard=True)
 
 
@@ -1213,7 +1213,7 @@ def fx_headline_wall(c, e):
         place(c, cards[i], x * W, y * H, 0.55 + 0.45 * kk, r, al * clamp((c.lt - t0) / 0.06), behind=True)
     t1 = N * gap + 0.1
     if c.lt > t1:
-        tot = e.o.get('total', '672K'); lab = e.o.get('label', 'views from 7 reels')
+        tot = e.o.get('total', '672K'); lab = e.o.get('label', 'просмотров за 7 рилс')
         a = text_img(tot, 96 * u, 'anton', (255, 255, 255)); b = text_img(lab, 34 * u, 'uib', (255, 255, 255))
         pw = int(a.width + b.width + 30 * u); ph = int(max(a.height, b.height) + 10 * u)
         pill = rrect(pw, ph, ph * 0.28, (217, 119, 87, 245)); pill.alpha_composite(a, (int(8 * u), (ph - a.height) // 2)); pill.alpha_composite(b, (int(a.width + 8 * u), (ph - b.height) // 2))
@@ -1234,7 +1234,7 @@ def fx_checklist(c, e):
         ang = a * math.pi / 2 + math.pi / 4
         d.line([(sx, sy), (sx + 18 * u * math.cos(ang), sy + 18 * u * math.sin(ang))], fill=(217, 119, 87, 255), width=int(7 * u))
         d.line([(sx, sy), (sx + 18 * u * math.cos(ang + math.pi / 4), sy + 18 * u * math.sin(ang + math.pi / 4))], fill=(217, 119, 87, 255), width=int(5 * u))
-    d.text((80 * u, hh / 2), e.o.get('title', 'Claude is editing your clip'), font=font('uib', 42 * u), fill=(255, 255, 255, 255), anchor='lm')
+    d.text((80 * u, hh / 2), e.o.get('title', 'Claude монтирует твой клип'), font=font('uib', 42 * u), fill=(255, 255, 255, 255), anchor='lm')
     nd = sum(c.lt >= t for t in done_at)
     d.text((cw - 36 * u, hh / 2), f'{nd} of {n}', font=font('uim', 28 * u), fill=(170, 170, 176, 255), anchor='rm')
     d.line([(30 * u, hh), (cw - 30 * u, hh)], fill=(255, 255, 255, 30), width=max(1, int(2 * u)))
@@ -1310,7 +1310,7 @@ def glass_widgets_v2(c, e):
     bw, bh = 400 * u, 150 * u; bx, by = W - 50 * u - bw / 2, 118 * u + bh / 2
     b = G(bw, bh, bx, by, bh * 0.28); d = ImageDraw.Draw(b); p = ease_inout(c.lt / max(0.3, e.d * 0.85))
     d.ellipse([bh * 0.17, bh * 0.2, bh * 0.28, bh * 0.31], fill=(255, 69, 58, 255))
-    d.text((bh * 0.36, bh * 0.255), 'Rendering', font=font('uim', bh * 0.19), fill=white + (240,), anchor='lm')
+    d.text((bh * 0.36, bh * 0.255), 'Рендер', font=font('uim', bh * 0.19), fill=white + (240,), anchor='lm')
     d.rounded_rectangle([bh * 0.17, bh * 0.5, bw - bh * 0.17, bh * 0.6], bh * 0.05, fill=white + (70,))
     d.rounded_rectangle([bh * 0.17, bh * 0.5, bh * 0.17 + (bw - bh * 0.34) * max(0.04, p), bh * 0.6], bh * 0.05, fill=white + (245,))
     d.text((bh * 0.17, bh * 0.78), f"4K render  ·  {int(p * 100)}%", font=font('uim', bh * 0.14), fill=white + (210,), anchor='lm')
@@ -1328,7 +1328,7 @@ def glass_widgets_v2(c, e):
     d.text((24 * u, 30 * u), 'artifact · views.html', font=font('mono', 15 * u), fill=white + (220,), anchor='lm')
     inn = rrect(aw - 36 * u, ah - 74 * u, 20 * u, (250, 248, 244, 255)); di = ImageDraw.Draw(inn); iw, ih = inn.size
     for j in range(3): di.ellipse([14 * u + j * 16 * u, 14 * u, 24 * u + j * 16 * u, 24 * u], fill=((255, 95, 87), (255, 189, 46), (40, 200, 64))[j] + (255,))
-    di.text((16 * u, 40 * u), 'Top reels', font=font('uib', 26 * u), fill=(24, 22, 26, 255))
+    di.text((16 * u, 40 * u), 'Топ рилс', font=font('uib', 26 * u), fill=(24, 22, 26, 255))
     di.text((16 * u, 72 * u), '197K', font=font('anton', 44 * u), fill=(200, 85, 61, 255))
     vals = [197, 140, 124, 83, 50, 40, 38]; gx0, gx1, gy1 = 16 * u, iw - 16 * u, ih - 18 * u; bwid = (gx1 - gx0) / 7 * 0.66
     for j, v in enumerate(vals):
@@ -1375,7 +1375,7 @@ def glass_widgets_v2(c, e):
     d.text((R / 2, R - 26 * u), 'render', font=font('uim', 20 * u), fill=white + (210,), anchor='mm')
     show(rg, rx, ry, 6)
     # 8 · Edited by Claude pill (in front)
-    f1, f2 = font('uim', W * 0.045), font('uib', W * 0.045); pre, hi = 'Edited by ', 'Claude'
+    f1, f2 = font('uim', W * 0.045), font('uib', W * 0.045); pre, hi = 'Монтаж: ', 'Claude'
     tw = f1.getlength(pre) + f2.getlength(hi); ph = W * 0.105; pw = tw + ph * 0.9; py = H * 0.875
     q = glass(c, pw, ph, ph / 2, W / 2, py, amt=0.16, tint=(70, 70, 76)); d = ImageDraw.Draw(q)
     d.text(((pw - tw) / 2, ph / 2), pre, font=f1, fill=white + (255,), anchor='lm')
@@ -1413,13 +1413,13 @@ def comment_sheet(c, e):
     gets a heart, then your reply drops in with a link chip."""
     W, H = c.W, c.H; u = W / 1080; al = fade(c, e)
     word = e.o.get('text', 'EFFECTS'); handle = e.o.get('handle', 'vita.mikushkina')
-    reply = e.o.get('reply', 'Sent you the pack'); chip = e.o.get('chip', '22 effects')
+    reply = e.o.get('reply', 'Скинула тебе пак'); chip = e.o.get('chip', '26 эффектов')
     sw, sh = 740 * u, 450 * u
     t_post = 0.3 + 0.06 * len(word) + 0.1; t_heart, t_rep = t_post + 0.25, t_post + 0.4
     sheet = rrect(sw, sh, 30 * u, (38, 38, 40, 248)); d = ImageDraw.Draw(sheet)
     white, grey, blue = (245, 245, 245, 255), (160, 160, 166, 255), (0, 149, 246, 255)
     d.rounded_rectangle([sw / 2 - 32 * u, 14 * u, sw / 2 + 32 * u, 20 * u], 3 * u, fill=(110, 110, 116, 255))
-    d.text((sw / 2, 50 * u), 'Comments', font=font('uib', 26 * u), fill=white, anchor='mm')
+    d.text((sw / 2, 50 * u), 'Комментарии', font=font('uib', 26 * u), fill=white, anchor='mm')
     d.line([(0, 80 * u), (sw, 80 * u)], fill=(60, 60, 64, 255), width=max(1, int(2 * u)))
     def avatar(sz):
         a = Image.new('RGBA', (int(sz), int(sz)), (0, 0, 0, 0)); ad = ImageDraw.Draw(a)
@@ -1471,7 +1471,7 @@ def comment_sheet(c, e):
         d.text((104 * u, iy + 24 * u), typed, font=font('uib', 26 * u), fill=white, anchor='lm')
         if int(c.lt * 4) % 2: d.rectangle([104 * u + font('uib', 26 * u).getlength(typed) + 3 * u, iy + 10 * u, 106 * u + font('uib', 26 * u).getlength(typed) + 3 * u, iy + 38 * u], fill=(0, 149, 246, 255))
     else:
-        d.text((104 * u, iy + 24 * u), f'Add a comment for {handle}', font=font('uim', 20 * u), fill=grey, anchor='lm')
+        d.text((104 * u, iy + 24 * u), f'Комментарий для {handle}', font=font('uim', 20 * u), fill=grey, anchor='lm')
     pressed = t_post - 0.08 <= c.lt < t_post
     d.text((sw - 44 * u, iy + 24 * u), 'Post', font=font('uib', 23 * u), fill=(blue if typed else (70, 110, 160, 255)) if not pressed else (140, 200, 255, 255), anchor='rm')
     sheet = shadowed(sheet, 22, 10, 120)
@@ -2000,7 +2000,7 @@ def msg_bubble(c, y, title, body, a):
 @effect('messages', 'iMessage notifications pop in one after another, creamy glass with a soft glow, stacking up above the bottom of the frame')
 def fx_messages(c, e):
     msgs = (e.o.get('text') or 'how did you edit this??|wait, which app is this|send me the effects pls|EFFECTS').split('|')
-    title = e.o.get('title', 'Messages'); n = len(msgs); u = c.W / 2160
+    title = e.o.get('title', 'Сообщения'); n = len(msgs); u = c.W / 2160
     gap = min(0.4, e.d * 0.75 / max(1, n)); pops = [0.13 + i * gap for i in range(n)]
     bottom = c.H * float(e.o.get('y', 0.61)); out = fade(c, e, 0.2)
     for k in range(n):
